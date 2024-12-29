@@ -1,0 +1,13 @@
+@import './base.css';
+
+#app {
+  height: 100vh;
+  font-weight: normal;
+  font-family: 'Figtree', serif;
+}
+/*@media (min-width: 375px) {*/
+/*  #app {*/
+/*    padding: 4.375rem 1.438rem  4.375rem  1.438rem;*/
+/*  }*/
+/*}*/
+
