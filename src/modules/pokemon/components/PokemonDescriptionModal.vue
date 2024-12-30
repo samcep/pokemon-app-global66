@@ -102,7 +102,7 @@ const copyToClipboard = (text: string) => {
 
 .modal-header {
   position: relative;
-  background-image: url("src/modules/common/Icons/PokemonBackground.svg");
+  background-image: url("../../common/icons/PokemonBackground.svg");
   background-size: cover;
   background-position: center;
   height: 13.75rem;
