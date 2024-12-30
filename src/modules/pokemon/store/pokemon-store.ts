@@ -17,7 +17,7 @@ export const usePokemonStore = defineStore('pokemons', () => {
     const pokemonsArray : Result[]   = response.data.results;
      const pokemonsAdapter : Pokemon[] = pokemonsArray.map((pokemon: Result) => {
        const urlParts = pokemon.url.split('/');
-       const id = urlParts[urlParts.length - 2] ?? 0;
+       const id = Number(urlParts[urlParts.length - 2]) ?? 0;
        return {
          ...pokemon,
          id,

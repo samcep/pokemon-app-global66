@@ -23,7 +23,7 @@ const copy = () => {
   copyToClipboard(text);
 }
 const generatePokemonText = () => {
-  const { name, weight, height } = pokemonStore.currentPokemonInfo;
+  const { name, weight, height } = pokemonStore.currentPokemonInfo!;
    return `${name},${weight},${height},${pokemonStore.currentTypesPokemonInfo}`;
 }
 const copyToClipboard = (text: string) => {
