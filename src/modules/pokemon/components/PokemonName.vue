@@ -55,6 +55,8 @@ defineProps<Props>();
   flex-grow: 1;
   text-align: left;
   cursor: pointer;
+  font-size: 1.375rem;
+  font-weight: 500;
 }
 
 

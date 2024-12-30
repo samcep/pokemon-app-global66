@@ -34,4 +34,10 @@ import FavoriteIcon from '@/modules/common/Icons/FavoriteIcon.vue'
 .active {
   background-color: var(--pa-button-normal);
 }
+
+@media (min-width: 1024px) {
+  .pa-router-inactive {
+    width: 17.188rem;
+  }
+}
 </style>
