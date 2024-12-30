@@ -82,3 +82,8 @@ p {
 .pa-button-primary:hover {
   background-color: var(--pa-button-hover);
 }
+
+  .wrapper {
+    height: calc(100vh - 220px);
+    overflow: auto
+  }

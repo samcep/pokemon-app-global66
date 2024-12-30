@@ -1,40 +1,73 @@
 <script setup lang="ts">
 import CloseIcon from '@/modules/common/Icons/CloseIcon.vue'
 import FavoriteIcon from '@/modules/common/Icons/FavoriteIcon.vue'
+import { computed, onMounted } from 'vue'
+import { usePokemonStore } from '@/modules/pokemon/store/pokemon-store.ts'
+import type { Pokemon } from '@/modules/pokemon/interfaces'
 
-interface Props {
-  isModalOpen: false;
+interface  Props {
+  pokemon: Pokemon,
+}
+const props = defineProps<Props>();
+const emit = defineEmits(['closeModal']);
+const pokemonStore = usePokemonStore();
+onMounted(async () => {
+  await pokemonStore.getPokemonInfo(props.pokemon.name);
+})
+const pokemonImageUrl = computed<string>(
+  () =>
+    `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${props.pokemon.id}.svg`,
+);
+const copy = () => {
+  const text =generatePokemonText();
+  copyToClipboard(text);
+}
+const generatePokemonText = () => {
+  const { name, weight, height } = pokemonStore.currentPokemonInfo;
+   return `${name},${weight},${height},${pokemonStore.currentTypesPokemonInfo}`;
+}
+const copyToClipboard = (text: string) => {
+  navigator.clipboard.writeText(text).then(
+    () => {
+      alert('Copied!')
+    },
+    (err) => {
+      console.log('something went wrong! ' + err);
+    }
+  )
 }
 
-defineProps<Props>();
+
 </script>
 
 <template>
-    <div v-if="isModalOpen" class="modal-overlay" >
+    <div  class="modal-overlay" >
       <div class="modal-content">
         <div class="modal-header">
-          <img class="overlay-image" :src="''" alt="Overlay Image" />
-          <CloseIcon class="close-button"></CloseIcon>
+          <img class="overlay-image" :src="pokemonImageUrl"  alt="Overlay Image" />
+          <CloseIcon @click="emit('closeModal')" class="close-button"></CloseIcon>
         </div>
         <div class="modal-body">
           <div class="modal-item">
             <span class="modal-Item-tittle">Name: </span>
-            <span class="modal-Item-value">Squirtle</span>
+            <span class="modal-Item-value">{{pokemon.name}}</span>
           </div>
           <div class="modal-item">
-            <span>Name: </span> <span>Squirtle</span>
+            <span class="modal-Item-tittle">Weight: </span>
+            <span class="modal-Item-value">{{pokemonStore?.currentPokemonInfo?.weight}}</span>
           </div>
           <div class="modal-item">
-            <span>Name: </span> <span>Squirtle</span>
+            <span class="modal-Item-tittle">Height: </span>
+            <span class="modal-Item-value">{{pokemonStore?.currentPokemonInfo?.height}}</span>
           </div>
           <div class="modal-item">
-            <span>Name: </span> <span>Squirtle</span>
+            <span class="modal-Item-tittle">Types: </span>
+            <span class="modal-Item-value">{{pokemonStore?.currentTypesPokemonInfo}}</span>
           </div>
         </div>
-
         <div class="modal-footer">
-          <a class="pa-button-primary">Share to my friends</a>
-          <FavoriteIcon></FavoriteIcon>
+          <a class="pa-button-primary" @click="copy">Share to my friends</a>
+          <favorite-icon  :type=" pokemon.favorite ? 'filled' : 'no-filled'" ></favorite-icon>
         </div>
       </div>
     </div>
@@ -77,12 +110,24 @@ defineProps<Props>();
 
 .overlay-image {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
-  width: 80px;
+  top: 20px;
+  height: 180px;
+  right: 67px;
+  width: 180px;
   z-index: 1;
 }
 
+@media (min-width: 768px) {
+  .overlay-image {
+    right: 150px;
+  }
+
+}
+@media (min-width: 1024px) {
+  .overlay-image{
+    right: 194px;
+  }
+}
 
 .close-button {
   position: absolute;
@@ -93,11 +138,6 @@ defineProps<Props>();
   cursor: pointer;
   z-index: 2;
 }
-
-.close-button:hover {
-  color: #ff0000;
-}
-
 
 .modal-body {
   padding: 0.625rem 1.875rem  0.625rem 1.875rem;
@@ -112,11 +152,6 @@ defineProps<Props>();
   border-bottom: 1px solid rgba(232, 232, 232, 1);
   text-align: left;
 
-}
-@media (min-width: 1024px) {
-  .modal-item {
-    width: 31.875rem;
-  }
 }
 @media (min-width: 1024px) {
   .modal-item {

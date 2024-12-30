@@ -8,7 +8,7 @@ import FavoriteIcon from '@/modules/common/Icons/FavoriteIcon.vue'
 <template>
 <footer class="footer-container">
   <RouterLink activeClass="active" class="pa-router-inactive margin" to="/pokemon/all"><all-icon></all-icon> All</RouterLink>
-  <RouterLink activeClass="active" class="pa-router-inactive margin" to="/pokemon/favorites"><favorite-icon></favorite-icon> Favorites</RouterLink>
+  <RouterLink activeClass="active" class="pa-router-inactive margin" to="/pokemon/favorites"><favorite-icon type="none"></favorite-icon> Favorites</RouterLink>
 </footer>
 </template>
 

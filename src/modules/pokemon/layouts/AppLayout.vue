@@ -1,25 +1,22 @@
 <template>
   <section class="container">
-<!--    <loading></loading>-->
-    <search-header></search-header>
     <main>
-      <RouterView></RouterView>
-<!--      <PokemonName></PokemonName>-->
-<!--      <PokemonName></PokemonName>-->
-<!--      <PokemonName></PokemonName>-->
-
-<!--      <PokemonCard :is-modal-open="false"></PokemonCard>-->
+      <RouterView v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component"></component>
+        </keep-alive>
+      </RouterView>
     </main>
   </section>
-  <Footer></Footer>
-
+  <Footer v-show="!isEmpty"></Footer>
 </template>
 <script setup lang="ts">
-import SearchHeader from '@/modules/pokemon/components/SearchHeader.vue'
+import { usePokemonStore } from '@/modules/pokemon/store/pokemon-store.ts'
+
+const pokemonStore =  usePokemonStore();
+const isEmpty = computed(() => pokemonStore.canShowNav);
 import Footer from '@/modules/pokemon/components/Footer.vue'
-import PokemonName from '@/modules/pokemon/components/PokemonName.vue'
-import PokemonCard from '@/modules/pokemon/components/PokemonDescriptionModal.vue'
-import Loading from '@/modules/common/Icons/Loading.vue'
+import { computed } from 'vue'
 </script>
 
 <style  scoped>

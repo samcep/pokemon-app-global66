@@ -1,15 +1,31 @@
 <script setup lang="ts">
 
 import FavoriteIcon from '@/modules/common/Icons/FavoriteIcon.vue'
+import type { Pokemon } from '@/modules/pokemon/interfaces'
+import { usePokemonStore } from '@/modules/pokemon/store/pokemon-store.ts'
+import PokemonDescriptionModal from '@/modules/pokemon/components/PokemonDescriptionModal.vue'
+import { ref } from 'vue'
+
+interface  Props {
+  pokemon: Pokemon
+}
+
+
+const pokemonStore = usePokemonStore();
+const openModal  = ref<boolean>(false);
+defineProps<Props>();
 </script>
 
 <template>
-  <div class="pokemon-description">
-      <span class="pokemon-name">Pokemon  #1</span>
-      <div class="container-icon">
-        <favorite-icon></favorite-icon>
+  <div class="pokemon-description" >
+      <span class="pokemon-name" @click="openModal = true">{{pokemon.name}}</span>
+      <div class="container-icon" @click="pokemonStore.toggleFavorites(pokemon)">
+        <favorite-icon  :type=" pokemon.favorite ? 'filled' : 'no-filled'" ></favorite-icon>
       </div>
   </div>
+
+  <pokemon-description-modal v-if="openModal"  :pokemon="pokemon"
+  @closeModal="openModal = false"></pokemon-description-modal>
 </template>
 
 <style scoped>
@@ -38,6 +54,7 @@ import FavoriteIcon from '@/modules/common/Icons/FavoriteIcon.vue'
 .pokemon-name {
   flex-grow: 1;
   text-align: left;
+  cursor: pointer;
 }
 
 

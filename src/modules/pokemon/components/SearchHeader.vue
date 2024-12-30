@@ -6,7 +6,7 @@ import SearchIcon from '@/modules/common/Icons/SearchIcon.vue'
 <template>
   <div class="search-bar">
     <search-icon></search-icon>
-    <input type="text" placeholder="Search" class="search-input" />
+    <input type="text" placeholder="Search" class="search-input" @input="$emit('search', $event.target.value)"/>
   </div>
 </template>
 
